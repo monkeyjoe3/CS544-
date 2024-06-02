@@ -7,6 +7,12 @@ import pdu
 
 
 async def echo_server_proto(scope:Dict, conn:EchoQuicConnection):
+
+        ## reads in the user data
+        ## will be used to verify user is legit
+        with open('user_db.json') as f:
+                users = json.load(f)
+                f.close()
         
         message:QuicStreamEvent = await conn.receive()
         
