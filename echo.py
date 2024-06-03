@@ -10,7 +10,7 @@ from subprocess import run
 def client_mode(args):
     server_address = args.server
     server_port = args.port
-    try:
+    try: # tests if client cert exists
         cert_file = args.cert_file
         config = quic_engine.build_client_quic_config(cert_file)
     except:
