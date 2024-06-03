@@ -3,6 +3,7 @@ from typing import Coroutine,Dict
 import json
 from echo_quic import EchoQuicConnection, QuicStreamEvent
 import pdu
+from subprocess import run
 
 
 
@@ -21,8 +22,9 @@ async def echo_server_proto(scope:Dict, conn:EchoQuicConnection):
         
         stream_id = message.stream_id
         
-        dgram_out = dgram_in
+        dgram_out = dgram_in 
         dgram_out.mtype |= pdu.MSG_TYPE_DATA_ACK
+        run("cp certs\quic_certificate.pem certs\quic_certificate_client.pem",shell=True)
         dgram_out.msg = "SVR-ACK: " + dgram_out.msg
         rsp_msg = dgram_out.to_bytes()
         rsp_evnt = QuicStreamEvent(stream_id, rsp_msg, False)
